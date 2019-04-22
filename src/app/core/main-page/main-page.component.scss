@@ -1,0 +1,29 @@
+@import '../../../sass/mixins';
+@include card-properties();
+
+::ng-deep {
+  .mat-list-item-content {
+    padding: 0 !important;
+  }
+}
+
+mat-list-item {
+  cursor: pointer;
+}
+
+mat-list-item {
+  i {
+    -ms-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    transition: all 0.3s;
+  }
+}
+
+mat-list-item:hover {
+  i {
+    -ms-transform: translateX(0.3rem);
+    -webkit-transform: translateX(0.3rem);
+    transform: translateX(0.3rem);
+  }
+}

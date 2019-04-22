@@ -1,0 +1,8 @@
+<div><b>Numer rachunku:</b> {{ account.getAccountNumber() }}</div>
+<div><b>Kwota na rachunku:</b> {{ account.getAccountSum() }} zł</div>
+<div><b>Oprocentowanie rachunku:</b> {{ account.getAccountInterest() }}%</div>
+<button
+  mat-raised-button
+  color="primary"
+  [routerLink]="['/saving-accounts', 'list']"
+  class="mt-4">Wstecz</button>

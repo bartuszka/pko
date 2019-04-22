@@ -1,0 +1,13 @@
+@import './variables';
+
+@mixin card-properties() {
+  mat-card {
+    padding: $mat-card-padding;
+  }
+
+  ::ng-deep {
+    .mat-card-header-text {
+      margin: $mat-card-header-margin !important;
+    }
+  }
+}

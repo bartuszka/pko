@@ -1,0 +1,27 @@
+<mat-accordion *ngIf="savingDeposits.length > 0">
+    <mat-expansion-panel *ngFor="let deposit of savingDeposits">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Lokata</b>
+        </mat-panel-title>
+        <mat-panel-description class="d-none d-md-block">
+          Numer: {{ deposit.getAccountNumber() }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p class="d-block d-md-none">Numer lokaty: {{ deposit.getAccountNumber() }}</p>
+      <p>Kwota na lokacie: {{ deposit.getAccountSum() }} zł</p>
+      <p>oprocentowanie: {{ deposit.getAccountInterest() }}%</p>
+      <mat-action-row>
+        <div class="row">
+          <div class="col-12 col-sm-6"><button mat-button color="primary" [routerLink]="['/bank-deposits', deposit.getId()]">Zobacz Szczegóły</button></div>
+          <div class="col-12 col-sm-6"><button mat-button color="warn" (click)="removeDeposit(deposit.getId())">Usuń</button></div>
+        </div>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <p *ngIf="savingDeposits.length <= 0">Brak lokat oszczędnościowych</p>
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/"
+    class="mt-4">Wstecz</button>
