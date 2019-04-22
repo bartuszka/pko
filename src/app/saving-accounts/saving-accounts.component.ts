@@ -12,7 +12,6 @@ export class SavingAccountsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private savingAccountsService: SavingAccountsService
   ) { }
 
   ngOnInit(): void {
@@ -21,7 +20,5 @@ export class SavingAccountsComponent implements OnInit {
         this.pageInitialized = data['appInit'];
       }
     );
-
-    this.savingAccountsService.fetchAccounts();
   }
 }

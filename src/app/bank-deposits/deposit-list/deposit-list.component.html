@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="savingDeposits.length > 0">
+<mat-accordion *ngIf="!loadingContent && savingDeposits.length > 0">
     <mat-expansion-panel *ngFor="let deposit of savingDeposits">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -17,7 +17,8 @@
       </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
-<p *ngIf="savingDeposits.length <= 0">Brak lokat oszczędnościowych</p>
+<mat-progress-bar *ngIf="loadingContent" mode="indeterminate"></mat-progress-bar>
+<p *ngIf="!loadingContent && savingDeposits.length <= 0">Brak lokat oszczędnościowych</p>
 <mat-card-actions>
   <button
     mat-raised-button

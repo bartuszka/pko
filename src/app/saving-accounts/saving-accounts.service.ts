@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of, Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Account } from './account.model';
 import { ServerTasksService } from '../shared/services/server-tasks.service';
 
@@ -8,7 +8,7 @@ export class SavingAccountsService {
 
   private savingAccounts: Account[] = [];
 
-  private savingAccountsSubject: BehaviorSubject<Account[]> = new BehaviorSubject([]);
+  private savingAccountsSubject: Subject<Account[]> = new Subject();
   public $savingAccounts: Observable<Account[]> = this.savingAccountsSubject.asObservable();
 
   constructor(private serverTasksService: ServerTasksService) {}

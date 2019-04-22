@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Account } from '../account.model';
 import { SavingAccountsService } from '../saving-accounts.service';
-import { combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -13,6 +12,7 @@ import { switchMap } from 'rxjs/operators';
 export class AccountDetailComponent implements OnInit {
 
   public account: Account;
+  public loadingContent: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,6 +20,7 @@ export class AccountDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadingContent = true;
     this.route.params.pipe(
       switchMap(
         (params: Params) => {
@@ -29,6 +30,7 @@ export class AccountDetailComponent implements OnInit {
     ).subscribe(
       (account: Account) => {
         this.account = account;
+        this.loadingContent = false;
       }
     );
   }

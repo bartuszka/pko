@@ -13,6 +13,7 @@ import { PromptComponent } from 'src/app/shared/components/prompt.component';
 export class AccountListComponent implements OnInit, OnDestroy {
   public savingAccounts: Account[] = [];
   private accountsSubscription: Subscription;
+  public loadingContent: boolean;
 
   constructor(private savingAccountsService: SavingAccountsService, public dialog: MatDialog) { }
 
@@ -29,25 +30,30 @@ export class AccountListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (deleteAccount: boolean) => {
         if (deleteAccount) {
+          this.loadingContent = true;
           this.savingAccountsService.removeAccount(accountId);
         }
       }
     );
   }
 
-  ngOnInit() {
+  addAccount(): void {
+    this.loadingContent = true;
+    this.savingAccountsService.addRandomAccount();
+  }
+
+  ngOnInit(): void {
+    this.loadingContent = true;
     this.accountsSubscription = this.savingAccountsService.$savingAccounts.subscribe(
       (accounts: Account[]) => {
         this.savingAccounts = accounts;
+        this.loadingContent = false;
       }
     );
+    this.savingAccountsService.fetchAccounts();
   }
 
   ngOnDestroy(): void {
     this.accountsSubscription.unsubscribe();
-  }
-
-  addAccount() {
-    this.savingAccountsService.addRandomAccount();
   }
 }

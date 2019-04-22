@@ -14,6 +14,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
 
   public savingDeposits: Deposit[] = [];
   private depositsSubscription: Subscription;
+  public loadingContent: boolean;
 
   constructor(private bankDepositsService: BankDepositsService, public dialog: MatDialog) { }
 
@@ -30,6 +31,7 @@ export class DepositListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (deleteDeposit: boolean) => {
         if (deleteDeposit) {
+          this.loadingContent = true;
           this.bankDepositsService.removeDeposit(depositId);
         }
       }
@@ -37,15 +39,19 @@ export class DepositListComponent implements OnInit, OnDestroy {
   }
 
   addDeposit() {
+    this.loadingContent = true;
     this.bankDepositsService.addRandomDeposit();
   }
 
   ngOnInit() {
+    this.loadingContent = true;
     this.depositsSubscription = this.bankDepositsService.$savingDeipsits.subscribe(
       (deposits: Deposit[]) => {
         this.savingDeposits = deposits;
+        this.loadingContent = false;
       }
     );
+    this.bankDepositsService.fetchDeposits();
   }
 
   ngOnDestroy(): void {

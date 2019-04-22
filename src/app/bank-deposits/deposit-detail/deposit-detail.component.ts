@@ -13,6 +13,7 @@ import { switchMap } from 'rxjs/operators';
 export class DepositDetailComponent implements OnInit {
 
   public deposit: Deposit;
+  public loadingContent: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,6 +21,7 @@ export class DepositDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadingContent = true;
     this.route.params.pipe(
       switchMap(
         (params: Params) => {
@@ -29,6 +31,7 @@ export class DepositDetailComponent implements OnInit {
     ).subscribe(
       (deposit: Deposit) => {
         this.deposit = deposit;
+        this.loadingContent = false;
       }
     );
   }

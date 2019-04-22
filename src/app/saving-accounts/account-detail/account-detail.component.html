@@ -1,8 +1,11 @@
-<div><b>Numer rachunku:</b> {{ account?.accountNumber }}</div>
-<div><b>Kwota na rachunku:</b> {{ account?.accountSum }} zł</div>
-<div><b>Oprocentowanie rachunku:</b> {{ account?.accountInterest }}%</div>
-<button
-  mat-raised-button
-  color="primary"
-  [routerLink]="['/saving-accounts', 'list']"
-  class="mt-4">Wstecz</button>
+<mat-progress-bar *ngIf="loadingContent" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!loadingContent">
+  <div><b>Numer rachunku:</b> {{ account?.accountNumber }}</div>
+  <div><b>Kwota na rachunku:</b> {{ account?.accountSum }} zł</div>
+  <div><b>Oprocentowanie rachunku:</b> {{ account?.accountInterest }}%</div>
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/saving-accounts', 'list']"
+    class="mt-4">Wstecz</button>
+</div>

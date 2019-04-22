@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Deposit } from './bank-deposit.model';
 import { ServerTasksService } from '../shared/services/server-tasks.service';
 
@@ -8,7 +8,7 @@ export class BankDepositsService {
 
   private savingDeipsits: Deposit[] = [];
 
-  private savingDeipsitsSubject: BehaviorSubject<Deposit[]> = new BehaviorSubject([]);
+  private savingDeipsitsSubject: Subject<Deposit[]> = new Subject();
   public $savingDeipsits: Observable<Deposit[]> = this.savingDeipsitsSubject.asObservable();
 
   constructor(private serverTasksService: ServerTasksService) {}

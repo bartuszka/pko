@@ -12,7 +12,6 @@ export class BankDepositsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private bankDepositsService: BankDepositsService
   ) { }
 
   ngOnInit(): void {
@@ -21,7 +20,5 @@ export class BankDepositsComponent implements OnInit {
         this.pageInitialized = data['appInit'];
       }
     );
-
-    this.bankDepositsService.fetchDeposits();
   }
 }

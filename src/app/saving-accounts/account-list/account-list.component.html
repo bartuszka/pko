@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="savingAccounts.length > 0">
+<mat-accordion *ngIf="!loadingContent && savingAccounts.length > 0">
   <mat-expansion-panel *ngFor="let account of savingAccounts">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -17,7 +17,8 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<p *ngIf="savingAccounts.length <= 0">Brak rachunków oszczędnościowych</p>
+<mat-progress-bar *ngIf="loadingContent" mode="indeterminate"></mat-progress-bar>
+<p *ngIf="!loadingContent && savingAccounts.length <= 0">Brak rachunków oszczędnościowych</p>
 <button
   mat-raised-button
   color="primary"
