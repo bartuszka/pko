@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Deposit } from '../deposit.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { BankDepositsService } from '../bank-deposits.service';
+import { combineLatest } from 'rxjs';
+import { Deposit } from '../bank-deposit.model';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-deposit-detail',
@@ -12,14 +14,22 @@ export class DepositDetailComponent implements OnInit {
 
   public deposit: Deposit;
 
-  constructor(private route: ActivatedRoute, private bankDepositService: BankDepositsService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private bankDepositService: BankDepositsService
+  ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Deposit) => {
-        this.deposit = this.bankDepositService.getDeposit(params['id']);
+    this.route.params.pipe(
+      switchMap(
+        (params: Params) => {
+          return this.bankDepositService.getDeposit(params['id']);
+        }
+      )
+    ).subscribe(
+      (deposit: Deposit) => {
+        this.deposit = deposit;
       }
     );
   }
-
 }

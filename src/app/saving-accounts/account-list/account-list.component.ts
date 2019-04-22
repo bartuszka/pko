@@ -29,7 +29,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (deleteAccount: boolean) => {
         if (deleteAccount) {
-          this.savingAccountsService.deleteAccount(accountId);
+          this.savingAccountsService.removeAccount(accountId);
         }
       }
     );
@@ -45,5 +45,9 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.accountsSubscription.unsubscribe();
+  }
+
+  addAccount() {
+    this.savingAccountsService.addRandomAccount();
   }
 }

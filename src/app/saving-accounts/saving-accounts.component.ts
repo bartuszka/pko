@@ -22,6 +22,6 @@ export class SavingAccountsComponent implements OnInit {
       }
     );
 
-    this.savingAccountsService.getAccounts();
+    this.savingAccountsService.fetchAccounts();
   }
 }

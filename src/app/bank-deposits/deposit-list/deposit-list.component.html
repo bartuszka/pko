@@ -5,23 +5,28 @@
           <b>Lokata</b>
         </mat-panel-title>
         <mat-panel-description class="d-none d-md-block">
-          Numer: {{ deposit.getAccountNumber() }}
+          Numer: {{ deposit.depositNumber }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <p class="d-block d-md-none">Numer lokaty: {{ deposit.getAccountNumber() }}</p>
-      <p>Kwota na lokacie: {{ deposit.getAccountSum() }} zł</p>
-      <p>oprocentowanie: {{ deposit.getAccountInterest() }}%</p>
+      <p class="d-block d-md-none">Numer lokaty: {{ deposit.depositNumber }}</p>
+      <p>Kwota na lokacie: {{ deposit.depositSum }} zł</p>
+      <p>oprocentowanie: {{ deposit.depositInterest }}%</p>
       <mat-action-row>
-        <div class="row">
-          <div class="col-12 col-sm-6"><button mat-button color="primary" [routerLink]="['/bank-deposits', deposit.getId()]">Zobacz Szczegóły</button></div>
-          <div class="col-12 col-sm-6"><button mat-button color="warn" (click)="removeDeposit(deposit.getId())">Usuń</button></div>
-        </div>
+        <button mat-button color="primary" [routerLink]="['/bank-deposits', deposit.id]">Zobacz Szczegóły</button>
+        <button mat-button color="warn" (click)="removeDeposit(deposit.id)">Usuń</button>
       </mat-action-row>
     </mat-expansion-panel>
-  </mat-accordion>
-  <p *ngIf="savingDeposits.length <= 0">Brak lokat oszczędnościowych</p>
+</mat-accordion>
+<p *ngIf="savingDeposits.length <= 0">Brak lokat oszczędnościowych</p>
+<mat-card-actions>
   <button
     mat-raised-button
     color="primary"
     routerLink="/"
-    class="mt-4">Wstecz</button>
+    class="mt-4 mr-1">Wstecz</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addDeposit()"
+    class="mt-4">Dodaj lokatę</button>
+</mat-card-actions>

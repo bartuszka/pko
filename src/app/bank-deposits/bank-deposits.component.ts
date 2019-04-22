@@ -22,6 +22,6 @@ export class BankDepositsComponent implements OnInit {
       }
     );
 
-    this.bankDepositsService.getDeposits();
+    this.bankDepositsService.fetchDeposits();
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { of, Observable, BehaviorSubject } from 'rxjs';
-import { Deposit } from './deposit.model';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Deposit } from './bank-deposit.model';
+import { ServerTasksService } from '../shared/services/server-tasks.service';
 
 @Injectable()
 export class BankDepositsService {
@@ -10,35 +11,62 @@ export class BankDepositsService {
   private savingDeipsitsSubject: BehaviorSubject<Deposit[]> = new BehaviorSubject([]);
   public $savingDeipsits: Observable<Deposit[]> = this.savingDeipsitsSubject.asObservable();
 
-  private serverAccounts: Deposit[] = [
-    new Deposit('aaaa', '12 1234 1234 1234 1234 1234 1234', 212, 1),
-    new Deposit('bbbb', '06 4567 4567 4567 4567 4567 4567', 555, 2),
-    new Deposit('cccc', '76 1375 1375 1375 1375 1375 1375', 5678, 5)
-  ];
+  constructor(private serverTasksService: ServerTasksService) {}
 
-  getDeposits(): void {
-    of(this.serverAccounts).subscribe(
-      (deposits: Deposit[]) => {
-        this.savingDeipsits = deposits;
+  fetchDeposits(): void {
+    this.serverTasksService.getDeposits().subscribe(
+      (depositsData: {message: string, currentDeposits: Deposit[]}) => {
+        this.savingDeipsits = depositsData.currentDeposits;
         this.savingDeipsitsSubject.next([...this.savingDeipsits]);
       }
     );
   }
 
-  deleteDeposit(accountId: string): void {
-    of(this.serverAccounts).subscribe(
-      (accounts: Deposit[]) => {
-        const updatedAccounts = this.savingDeipsits.filter(
-          (account: Deposit) => account.getId() !== accountId);
-        this.savingDeipsits = updatedAccounts;
+  removeDeposit(depositId: string): void {
+    this.serverTasksService.removeDeposit(depositId).subscribe(
+      () => {
+        const updatedDeposits = this.savingDeipsits.filter((deposit: Deposit) => deposit.id !== depositId);
+        this.savingDeipsits = updatedDeposits;
         this.savingDeipsitsSubject.next([...this.savingDeipsits]);
       }
     );
   }
 
-  getDeposit(accountId: string) {
-    return this.savingDeipsits.find(
-      (deposit: Deposit) => deposit.getId() === accountId
+  public getDeposit(depositId: string) {
+    return this.serverTasksService.getDeposit(depositId);
+  }
+
+  private generateRandomDeposit(): Deposit {
+    const possibleChars = '1234567890';
+    let newDepositNum: string = '';
+    const newDepositSum: number = Math.floor(100 + Math.random() * 900);
+    const newDepositInterest: number = Math.floor(1 + Math.random() * 9);
+
+    for (let i = 0; i < 26; i++) {
+      if (i === 2 || (i + 2) % 4 === 0) {
+        newDepositNum += ' ';
+      }
+      newDepositNum += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    }
+
+    const newDeposit: Deposit = {
+      id: null,
+      depositNumber: newDepositNum,
+      depositSum: newDepositSum,
+      depositInterest: newDepositInterest
+    };
+
+    return newDeposit;
+  }
+
+  public addRandomDeposit() {
+    const newDeposit: Deposit = this.generateRandomDeposit();
+    this.serverTasksService.addRandomDeposit(newDeposit).subscribe(
+      (responseData: {message: string, depositId: string}) => {
+        newDeposit.id = responseData.depositId;
+        this.savingDeipsits.push(newDeposit);
+        this.savingDeipsitsSubject.next([...this.savingDeipsits]);
+      }
     );
   }
 }

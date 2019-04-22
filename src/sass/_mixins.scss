@@ -9,5 +9,9 @@
     .mat-card-header-text {
       margin: $mat-card-header-margin !important;
     }
+
+    mat-card-actions {
+      margin: 0 !important;
+    }
   }
 }

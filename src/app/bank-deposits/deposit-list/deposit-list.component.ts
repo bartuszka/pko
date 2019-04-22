@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PromptComponent } from 'src/app/shared/components/prompt.component';
 import { BankDepositsService } from '../bank-deposits.service';
 import { Subscription } from 'rxjs';
-import { Deposit } from '../deposit.model';
+import { Deposit } from '../bank-deposit.model';
 
 @Component({
   selector: 'app-deposit-list',
@@ -30,17 +30,20 @@ export class DepositListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       (deleteDeposit: boolean) => {
         if (deleteDeposit) {
-          this.bankDepositsService.deleteDeposit(depositId);
+          this.bankDepositsService.removeDeposit(depositId);
         }
       }
     );
+  }
+
+  addDeposit() {
+    this.bankDepositsService.addRandomDeposit();
   }
 
   ngOnInit() {
     this.depositsSubscription = this.bankDepositsService.$savingDeipsits.subscribe(
       (deposits: Deposit[]) => {
         this.savingDeposits = deposits;
-        console.log(this.savingDeposits)
       }
     );
   }

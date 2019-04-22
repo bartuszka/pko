@@ -6,6 +6,7 @@ import { AccountListComponent } from './account-list/account-list.component';
 
 const savingAccountRoutes: Routes = [
   { path: '', component: SavingAccountsComponent, children: [
+    { path: '', redirectTo: 'list' },
     { path: 'list', component: AccountListComponent },
     { path: ':id', component: AccountDetailComponent }
   ] }

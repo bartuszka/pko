@@ -21,7 +21,7 @@ import { AccountListComponent } from './account-list/account-list.component';
     SavingAccountsRoutingModule,
     SharedModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   providers: [
     SavingAccountsService

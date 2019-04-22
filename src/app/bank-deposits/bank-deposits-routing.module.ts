@@ -6,6 +6,7 @@ import { DepositListComponent } from './deposit-list/deposit-list.component';
 
 const bankDepositsRoutes: Routes = [
   { path: '', component: BankDepositsComponent, children: [
+    { path: '', redirectTo: 'list' },
     { path: 'list', component: DepositListComponent },
     { path: ':id', component: DepositDetailComponent }
   ] },

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { AppInitResolver } from './shared/services/app-init-resolver.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AppInitResolver } from './shared/services/app-init-resolver.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    CoreModule
+    HttpClientModule,
+    CoreModule,
   ],
   bootstrap: [
     AppComponent

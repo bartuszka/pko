@@ -7,6 +7,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SharedModule } from '../shared/shared.module';
 import { BankDepositsComponent } from './bank-deposits.component';
 import { BankDepositsService } from './bank-deposits.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BankDepositsService } from './bank-deposits.service';
     CommonModule,
     BankDepositsRoutingModule,
     MatExpansionModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [
     BankDepositsService

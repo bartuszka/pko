@@ -13,6 +13,9 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-    <p *ngIf="pageInitialized" class="app-init">Strona zainicjowana</p>
+    <p *ngIf="pageInitialized; else pageNotInitialized" class="app-init">Strona zainicjowana</p>
+    <ng-template #pageNotInitialized>
+      <p *ngIf="!pageInitialized" class="app-init">Strona nie została zainicjowana</p>
+    </ng-template>
   </div>
 </div>

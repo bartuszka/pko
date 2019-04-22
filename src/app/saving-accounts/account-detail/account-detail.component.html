@@ -1,6 +1,6 @@
-<div><b>Numer rachunku:</b> {{ account.getAccountNumber() }}</div>
-<div><b>Kwota na rachunku:</b> {{ account.getAccountSum() }} zł</div>
-<div><b>Oprocentowanie rachunku:</b> {{ account.getAccountInterest() }}%</div>
+<div><b>Numer rachunku:</b> {{ account?.accountNumber }}</div>
+<div><b>Kwota na rachunku:</b> {{ account?.accountSum }} zł</div>
+<div><b>Oprocentowanie rachunku:</b> {{ account?.accountInterest }}%</div>
 <button
   mat-raised-button
   color="primary"
