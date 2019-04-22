@@ -8,6 +8,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ServerTasksService } from '../shared/services/server-tasks.service';
 import { AppInitResolver } from '../shared/services/app-init-resolver.service';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ServerInterceptor } from '../shared/services/server.interceptor';
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { CommonModule } from '@angular/common';
   ],
   providers: [
     ServerTasksService,
-    AppInitResolver
+    AppInitResolver,
+    { provide: HTTP_INTERCEPTORS, useClass: ServerInterceptor, multi: true }
   ]
 })
 export class CoreModule { }

@@ -15,7 +15,7 @@ export class ServerTasksService {
     if (this.appInitialized) {
       return true;
     } else {
-      return this.httpClient.get<{init: boolean}>('http://localhost:3000/application/init').pipe(
+      return this.httpClient.get<{init: boolean}>('/application/init').pipe(
         map(
           (appInitData: {init: boolean}) => {
             return appInitData.init;
@@ -30,7 +30,7 @@ export class ServerTasksService {
   }
 
   public getAccounts() {
-    return this.httpClient.get<{message: string, savingAccounts: Account[]}>('http://localhost:3000/application/currentAccounts').pipe(
+    return this.httpClient.get<{message: string, savingAccounts: Account[]}>('/application/currentAccounts').pipe(
       map(
         (serverData: {message: string, savingAccounts: any[]}) => {
           const updatedAccounts: Account[] = serverData.savingAccounts.map(
@@ -51,7 +51,7 @@ export class ServerTasksService {
   }
 
   public getDeposits() {
-    return this.httpClient.get<{message: string, currentDeposits: Deposit[]}>('http://localhost:3000/application/termDeposits').pipe(
+    return this.httpClient.get<{message: string, currentDeposits: Deposit[]}>('/application/termDeposits').pipe(
       map(
         (serverData: {message: string, currentDeposits: any[]}) => {
           const updatedDeposits: Deposit[] = serverData.currentDeposits.map(
@@ -72,7 +72,7 @@ export class ServerTasksService {
   }
 
   public getAccount(accountId: string) {
-    return this.httpClient.get<{message: string, account: any}>('http://localhost:3000/application/currentAccounts/' + accountId).pipe(
+    return this.httpClient.get<{message: string, account: any}>('/application/currentAccounts/' + accountId).pipe(
       map(
         (account: any) => {
           return {
@@ -87,7 +87,7 @@ export class ServerTasksService {
   }
 
   public getDeposit(depositId: string) {
-    return this.httpClient.get<{message: string, deposit: any}>('http://localhost:3000/application/termDeposits/' + depositId).pipe(
+    return this.httpClient.get<{message: string, deposit: any}>('/application/termDeposits/' + depositId).pipe(
       map(
         (deposit: any) => {
           return {
@@ -102,18 +102,18 @@ export class ServerTasksService {
   }
 
   public removeAccount(accountId: string) {
-    return this.httpClient.delete<{message: string}>('http://localhost:3000/application/currentAccounts/' + accountId);
+    return this.httpClient.delete<{message: string}>('/application/currentAccounts/' + accountId);
   }
 
   public removeDeposit(depositId: string) {
-    return this.httpClient.delete<{message: string}>('http://localhost:3000/application/termDeposits/' + depositId);
+    return this.httpClient.delete<{message: string}>('/application/termDeposits/' + depositId);
   }
 
   public addRandomAccount(account: Account): Observable<any> {
-    return this.httpClient.post<{message: string, accountId: string}>('http://localhost:3000/application/currentAccounts', account);
+    return this.httpClient.post<{message: string, accountId: string}>('/application/currentAccounts', account);
   }
 
   public addRandomDeposit(deposit: Deposit): Observable<any> {
-    return this.httpClient.post<{message: string, depositId: string}>('http://localhost:3000/application/termDeposits', deposit);
+    return this.httpClient.post<{message: string, depositId: string}>('/application/termDeposits', deposit);
   }
 }
