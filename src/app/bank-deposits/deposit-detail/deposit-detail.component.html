@@ -1,8 +1,13 @@
 <mat-progress-bar *ngIf="getLoadingContent()" mode="indeterminate"></mat-progress-bar>
 <div *ngIf="!getLoadingContent()">
-  <div><b>Numer lokaty:</b> {{ deposit?.depositNumber }}</div>
-  <div><b>Kwota na lokaty:</b> {{ deposit?.depositSum }} zł</div>
-  <div><b>Oprocentowanie lokaty:</b> {{ deposit?.depositInterest }}%</div>
+  <div *ngIf="deposit">
+    <div><b>Numer lokaty:</b> {{ deposit?.depositNumber }}</div>
+    <div><b>Kwota na lokaty:</b> {{ deposit?.depositSum }} zł</div>
+    <div><b>Oprocentowanie lokaty:</b> {{ deposit?.depositInterest }}%</div>
+  </div>
+  <div *ngIf="!deposit">
+    Nie znaleziono lokaty
+  </div>
   <button
     mat-raised-button
     color="primary"

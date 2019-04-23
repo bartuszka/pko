@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PageNotExistModule } from './page-not-exist/page-not-exist.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
+    PageNotExistModule
   ],
   bootstrap: [
     AppComponent

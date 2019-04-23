@@ -63,21 +63,27 @@ app.get('/application/termDeposits', (req, res, next) => {
 });
 
 app.get('/application/currentAccounts/:id', (req, res, next) => {
-  SavingAccount.findById(req.params.id).then(
+  SavingAccount.findOne({_id: req.params.id}).then(
     (account) => {
-      if(!account) { return res.status(404).end(); }
       return res.status(200).json(account);
+    }
+  ).catch(
+    (error) => {
+      return res.status(404).end();
     }
   );
 });
 
 app.get('/application/termDeposits/:id', (req, res, next) => {
-  TermDeposit.findById(req.params.id).then(
+  TermDeposit.findOne({_id: req.params.id}).then(
     (deposit) => {
-      if(!deposit) { return res.status(404).end(); }
       return res.status(200).json(deposit);
     }
-  );
+  ).catch(
+    (error) => {
+      return res.status(404).end();
+    }
+  );;
 });
 
 app.post('/application/currentAccounts', (req, res, next) => {
