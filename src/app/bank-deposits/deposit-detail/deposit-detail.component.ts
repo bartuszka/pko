@@ -21,12 +21,11 @@ export class DepositDetailComponent implements OnInit, OnDestroy {
     private bankDepositService: BankDepositsService
   ) { }
 
-  getLoadingContent() {
+  getLoadingContent(): boolean {
     return this.bankDepositService.getLoadingContent();
   }
 
-  ngOnInit() {
-
+  ngOnInit(): void {
     this.accountSubscription = this.bankDepositService.$savingDeipsit.subscribe(
       (deposit: Deposit) => {
         this.deposit = deposit;

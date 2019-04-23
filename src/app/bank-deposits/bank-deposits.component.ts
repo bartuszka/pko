@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BankDepositsService } from './bank-deposits.service';
 import { ActivatedRoute, Data } from '@angular/router';
 
 @Component({

@@ -1,5 +1,5 @@
-import { Observable, of } from 'rxjs';
-import { map, delay, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Account } from 'src/app/saving-accounts/account.model';
 import { Injectable } from '@angular/core';
@@ -34,8 +34,8 @@ export class ServerTasksService {
     return this.appInitialized;
   }
 
-  public getAccounts() {
-    return this.httpClient.get<{message: string, savingAccounts: Account[]}>('/application/currentAccounts').pipe(
+  public getAccounts(): Observable<{message: string, savingAccounts: Account[]}> {
+    return this.httpClient.get<{message: string, savingAccounts: any[]}>('/application/currentAccounts').pipe(
       map(
         (serverData: {message: string, savingAccounts: any[]}) => {
           const updatedAccounts: Account[] = serverData.savingAccounts.map(
@@ -55,8 +55,8 @@ export class ServerTasksService {
     );
   }
 
-  public getDeposits() {
-    return this.httpClient.get<{message: string, currentDeposits: Deposit[]}>('/application/termDeposits').pipe(
+  public getDeposits(): Observable<{message: string, currentDeposits: Deposit[]}> {
+    return this.httpClient.get<{message: string, currentDeposits: any[]}>('/application/termDeposits').pipe(
       map(
         (serverData: {message: string, currentDeposits: any[]}) => {
           const updatedDeposits: Deposit[] = serverData.currentDeposits.map(
@@ -76,10 +76,11 @@ export class ServerTasksService {
     );
   }
 
-  public getAccount(accountId: string) {
-    return this.httpClient.get<{message: string, account: any}>('/application/currentAccounts/' + accountId).pipe(
+  public getAccount(accountId: string): Observable<Account> {
+    return this.httpClient.get<{account: any}>('/application/currentAccounts/' + accountId).pipe(
       map(
-        (account: any) => {
+        (serverAccount: any) => {
+          const account = serverAccount.account;
           return {
             id: account._id,
             accountNumber: account.accountNumber,
@@ -91,10 +92,11 @@ export class ServerTasksService {
     );
   }
 
-  public getDeposit(depositId: string) {
-    return this.httpClient.get<{message: string, deposit: any}>('/application/termDeposits/' + depositId).pipe(
+  public getDeposit(depositId: string): Observable<Deposit> {
+    return this.httpClient.get<{deposit: any}>('/application/termDeposits/' + depositId).pipe(
       map(
-        (deposit: any) => {
+        (serverDeposit: any) => {
+          const deposit = serverDeposit.deposit;
           return {
             id: deposit._id,
             depositNumber: deposit.depositNumber,
@@ -103,22 +105,22 @@ export class ServerTasksService {
           };
         }
       )
-    );;
+    );
   }
 
-  public removeAccount(accountId: string) {
+  public removeAccount(accountId: string): Observable<{message: string}> {
     return this.httpClient.delete<{message: string}>('/application/currentAccounts/' + accountId);
   }
 
-  public removeDeposit(depositId: string) {
+  public removeDeposit(depositId: string): Observable<{message: string}> {
     return this.httpClient.delete<{message: string}>('/application/termDeposits/' + depositId);
   }
 
-  public addRandomAccount(account: Account): Observable<any> {
+  public addRandomAccount(account: Account): Observable<{message: string, accountId: string}> {
     return this.httpClient.post<{message: string, accountId: string}>('/application/currentAccounts', account);
   }
 
-  public addRandomDeposit(deposit: Deposit): Observable<any> {
+  public addRandomDeposit(deposit: Deposit): Observable<{message: string, depositId: string}> {
     return this.httpClient.post<{message: string, depositId: string}>('/application/termDeposits', deposit);
   }
 }

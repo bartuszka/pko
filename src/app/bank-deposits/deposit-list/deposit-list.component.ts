@@ -43,16 +43,16 @@ export class DepositListComponent implements OnInit, OnDestroy {
     );
   }
 
-  addDeposit() {
+  addDeposit(): void {
     this.loadingContent = true;
     this.bankDepositsService.addRandomDeposit();
   }
 
-  getLoadingContent() {
+  getLoadingContent(): boolean {
     return this.bankDepositsService.getLoadingContent();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadingContent = true;
     this.depositsSubscription = this.bankDepositsService.$savingDeipsits.subscribe(
       (deposits: Deposit[]) => {

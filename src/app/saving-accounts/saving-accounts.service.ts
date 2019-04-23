@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, throwError } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Account } from './account.model';
 import { ServerTasksService } from '../shared/services/server-tasks.service';
 import { ErrorHandlingService, Errors } from '../shared/services/error-handling.service';
@@ -13,7 +13,7 @@ export class SavingAccountsService {
   public $savingAccounts: Observable<Account[]> = this.savingAccountsSubject.asObservable();
   private savingAccountSubject: Subject<Account> = new Subject();
   public $savingAccount: Observable<Account> = this.savingAccountSubject.asObservable();
-  private loadingContent = false;
+  private loadingContent: boolean = false;
 
   constructor(
     private serverTasksService: ServerTasksService,
@@ -35,9 +35,9 @@ export class SavingAccountsService {
     );
   }
 
-  public getAccount(accountId: string) {
+  public getAccount(accountId: string): void {
     this.loadingContent = true;
-    return this.serverTasksService.getAccount(accountId).subscribe(
+    this.serverTasksService.getAccount(accountId).subscribe(
       (account: Account) => {
         this.savingAccountSubject.next(account);
         this.loadingContent = false;
@@ -49,7 +49,7 @@ export class SavingAccountsService {
     );
   }
 
-  public removeAccount(accountId: string) {
+  public removeAccount(accountId: string): void {
     this.loadingContent = true;
     this.serverTasksService.removeAccount(accountId).subscribe(
       () => {
@@ -65,9 +65,9 @@ export class SavingAccountsService {
     );
   }
 
-  public addRandomAccount() {
+  public addRandomAccount(): void {
     this.loadingContent = true;
-    const newAccount = this.generateRandomAccount();
+    const newAccount: Account = this.generateRandomAccount();
     this.serverTasksService.addRandomAccount(newAccount).subscribe(
       (responseData: {message: string, accountId: string}) => {
         newAccount.id = responseData.accountId;
@@ -82,8 +82,8 @@ export class SavingAccountsService {
     );
   }
 
-  private generateRandomAccount() {
-    const possibleChars = '1234567890';
+  private generateRandomAccount(): Account {
+    const possibleChars: string = '1234567890';
     let newAccountNum: string = '';
     const newAccountSum: number = Math.floor(100 + Math.random() * 900);
     const newAccountInterest: number = Math.floor(1 + Math.random() * 9);
@@ -105,7 +105,7 @@ export class SavingAccountsService {
     return newAccount;
   }
 
-  public getLoadingContent() {
+  public getLoadingContent(): boolean {
     return this.loadingContent;
   }
 }

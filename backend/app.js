@@ -65,7 +65,7 @@ app.get('/application/termDeposits', (req, res, next) => {
 app.get('/application/currentAccounts/:id', (req, res, next) => {
   SavingAccount.findOne({_id: req.params.id}).then(
     (account) => {
-      return res.status(200).json(account);
+      return res.status(200).json({account: account});
     }
   ).catch(
     (error) => {
@@ -77,7 +77,7 @@ app.get('/application/currentAccounts/:id', (req, res, next) => {
 app.get('/application/termDeposits/:id', (req, res, next) => {
   TermDeposit.findOne({_id: req.params.id}).then(
     (deposit) => {
-      return res.status(200).json(deposit);
+      return res.status(200).json({deposit: deposit});
     }
   ).catch(
     (error) => {

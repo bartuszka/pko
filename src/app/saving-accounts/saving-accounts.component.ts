@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SavingAccountsService } from './saving-accounts.service';
 import { ActivatedRoute, Data } from '@angular/router';
 
 @Component({

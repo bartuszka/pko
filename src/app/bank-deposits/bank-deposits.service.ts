@@ -13,7 +13,7 @@ export class BankDepositsService {
   public $savingDeipsits: Observable<Deposit[]> = this.savingDeipsitsSubject.asObservable();
   private savingDeipsitSubject: Subject<Deposit> = new Subject();
   public $savingDeipsit: Observable<Deposit> = this.savingDeipsitSubject.asObservable();
-  private loadingContent = false;
+  private loadingContent: boolean = false;
 
   constructor(
     private serverTasksService: ServerTasksService,
@@ -51,9 +51,9 @@ export class BankDepositsService {
     );
   }
 
-  public getDeposit(depositId: string) {
+  public getDeposit(depositId: string): void {
     this.loadingContent = true;
-    return this.serverTasksService.getDeposit(depositId).subscribe(
+    this.serverTasksService.getDeposit(depositId).subscribe(
       (deposit: Deposit) => {
         this.savingDeipsitSubject.next(deposit);
         this.loadingContent = false;
@@ -65,7 +65,7 @@ export class BankDepositsService {
     );
   }
 
-  public addRandomDeposit() {
+  public addRandomDeposit(): void {
     this.loadingContent = true;
     const newDeposit: Deposit = this.generateRandomDeposit();
     this.serverTasksService.addRandomDeposit(newDeposit).subscribe(
@@ -83,7 +83,7 @@ export class BankDepositsService {
   }
 
   private generateRandomDeposit(): Deposit {
-    const possibleChars = '1234567890';
+    const possibleChars: string = '1234567890';
     let newDepositNum: string = '';
     const newDepositSum: number = Math.floor(100 + Math.random() * 900);
     const newDepositInterest: number = Math.floor(1 + Math.random() * 9);
@@ -105,7 +105,7 @@ export class BankDepositsService {
     return newDeposit;
   }
 
-  public getLoadingContent() {
+  public getLoadingContent(): boolean {
     return this.loadingContent;
   }
 }

@@ -44,7 +44,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
     this.savingAccountsService.addRandomAccount();
   }
 
-  getLoadingContent() {
+  getLoadingContent(): boolean {
     return this.savingAccountsService.getLoadingContent();
   }
 

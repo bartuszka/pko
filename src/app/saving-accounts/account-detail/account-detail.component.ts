@@ -19,11 +19,11 @@ export class AccountDetailComponent implements OnInit, OnDestroy {
     private savingAccountsService: SavingAccountsService
   ) { }
 
-  getLoadingContent() {
+  getLoadingContent(): boolean {
     return this.savingAccountsService.getLoadingContent();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.accountSubscription = this.savingAccountsService.$savingAccount.subscribe(
       (account: Account) => {
         this.account = account;

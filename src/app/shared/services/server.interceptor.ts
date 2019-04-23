@@ -8,7 +8,7 @@ export class ServerInterceptor implements HttpInterceptor {
     if (req.url.indexOf('http://') !== -1) {
       return next.handle(req);
     }
-    const copiedReq = req.clone({url: serverConnectionString + req.url});
+    const copiedReq: HttpRequest<any> = req.clone({url: serverConnectionString + req.url});
     return next.handle(copiedReq);
   }
 }
