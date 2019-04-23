@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="!loadingContent && savingAccounts.length > 0">
+<mat-accordion *ngIf="!getLoadingContent() && savingAccounts.length > 0">
   <mat-expansion-panel *ngFor="let account of savingAccounts">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -17,15 +17,17 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-progress-bar *ngIf="loadingContent" mode="indeterminate"></mat-progress-bar>
-<p *ngIf="!loadingContent && savingAccounts.length <= 0">Brak rachunków oszczędnościowych</p>
-<button
-  mat-raised-button
-  color="primary"
-  routerLink="/"
-  class="mt-4 mr-1">Wstecz</button>
-<button
-  mat-raised-button
-  color="primary"
-  (click)="addAccount()"
-  class="mt-4">Dodaj rachunek</button>
+<mat-progress-bar *ngIf="getLoadingContent()" mode="indeterminate"></mat-progress-bar>
+<p *ngIf="!getLoadingContent() && savingAccounts.length <= 0">Brak rachunków oszczędnościowych</p>
+<mat-card-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/"
+    class="mt-4">Wstecz</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addAccount()"
+    class="mt-4">Dodaj rachunek</button>
+</mat-card-actions>

@@ -9,7 +9,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://bart:17w61obcKTxfThfV@cluster0-g0mzn.mongodb.net/appData?retryWrites=true')
+mongoose.connect('mongodb+srv://bart:17w61obcKTxfThfV@cluster0-g0mzn.mongodb.net/appData?retryWrites=true', { useNewUrlParser: true })
 .then(
   () => {
     console.log('Connected to database!');
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'GET, POST, PATCH, DELETE, PUT, OPTIONS'
+    'GET, POST, DELETE'
   )
   next();
 });

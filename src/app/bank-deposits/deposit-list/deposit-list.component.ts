@@ -25,7 +25,12 @@ export class DepositListComponent implements OnInit, OnDestroy {
   openDialog(depositId: string): void {
     const dialogRef = this.dialog.open(PromptComponent, {
       autoFocus: false,
-      data: { title: 'Usuwanie lokaty', message: 'Czy na pewno chcesz usunąć tę lokatę?' }
+      data: {
+        title: 'Usuwanie lokaty',
+        message: 'Czy na pewno chcesz usunąć tę lokatę?',
+        confirmBtnText: 'Tak',
+        cancelBtnText: 'Nie'
+      }
     });
 
     dialogRef.afterClosed().subscribe(
@@ -41,6 +46,10 @@ export class DepositListComponent implements OnInit, OnDestroy {
   addDeposit() {
     this.loadingContent = true;
     this.bankDepositsService.addRandomDeposit();
+  }
+
+  getLoadingContent() {
+    return this.bankDepositsService.getLoadingContent();
   }
 
   ngOnInit() {

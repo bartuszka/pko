@@ -16,6 +16,11 @@ export class ServerTasksService {
       return true;
     } else {
       return this.httpClient.get<{init: boolean}>('/application/init').pipe(
+        tap(
+          (appInitData: {init: boolean}) => {
+            this.appInitialized = appInitData.init;
+          }
+        ),
         map(
           (appInitData: {init: boolean}) => {
             return appInitData.init;

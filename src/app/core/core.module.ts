@@ -10,6 +10,7 @@ import { AppInitResolver } from '../shared/services/app-init-resolver.service';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServerInterceptor } from '../shared/services/server.interceptor';
+import { ErrorHandlingService } from '../shared/services/error-handling.service';
 
 
 @NgModule({
@@ -26,11 +27,13 @@ import { ServerInterceptor } from '../shared/services/server.interceptor';
   ],
   exports: [
     AppRoutingModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDividerModule
   ],
   providers: [
     ServerTasksService,
     AppInitResolver,
+    ErrorHandlingService,
     { provide: HTTP_INTERCEPTORS, useClass: ServerInterceptor, multi: true }
   ]
 })

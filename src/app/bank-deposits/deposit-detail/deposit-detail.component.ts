@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { BankDepositsService } from '../bank-deposits.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { Deposit } from '../bank-deposit.model';
 import { switchMap } from 'rxjs/operators';
 
@@ -10,29 +10,37 @@ import { switchMap } from 'rxjs/operators';
   templateUrl: './deposit-detail.component.html',
   styleUrls: ['./deposit-detail.component.scss']
 })
-export class DepositDetailComponent implements OnInit {
+export class DepositDetailComponent implements OnInit, OnDestroy {
 
   public deposit: Deposit;
   public loadingContent: boolean;
+  private accountSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private bankDepositService: BankDepositsService
   ) { }
 
+  getLoadingContent() {
+    return this.bankDepositService.getLoadingContent();
+  }
+
   ngOnInit() {
-    this.loadingContent = true;
-    this.route.params.pipe(
-      switchMap(
-        (params: Params) => {
-          return this.bankDepositService.getDeposit(params['id']);
-        }
-      )
-    ).subscribe(
+
+    this.accountSubscription = this.bankDepositService.$savingDeipsit.subscribe(
       (deposit: Deposit) => {
         this.deposit = deposit;
-        this.loadingContent = false;
       }
     );
+
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.bankDepositService.getDeposit(params['id']);
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.accountSubscription.unsubscribe();
   }
 }

@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PromptComponent } from './components/prompt.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     PromptComponent
   ],
   imports: [
+    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatDialogModule,

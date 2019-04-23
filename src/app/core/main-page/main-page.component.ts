@@ -9,7 +9,9 @@ import { ActivatedRoute, Data } from '@angular/router';
 export class MainPageComponent implements OnInit {
   public pageInitialized: boolean;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
     this.route.data.subscribe(

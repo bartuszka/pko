@@ -1,37 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Account } from '../account.model';
 import { SavingAccountsService } from '../saving-accounts.service';
-import { switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-detail',
   templateUrl: './account-detail.component.html',
   styleUrls: ['./account-detail.component.scss']
 })
-export class AccountDetailComponent implements OnInit {
+export class AccountDetailComponent implements OnInit, OnDestroy {
 
   public account: Account;
-  public loadingContent: boolean;
+  private accountSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private savingAccountsService: SavingAccountsService
   ) { }
 
+  getLoadingContent() {
+    return this.savingAccountsService.getLoadingContent();
+  }
+
   ngOnInit() {
-    this.loadingContent = true;
-    this.route.params.pipe(
-      switchMap(
-        (params: Params) => {
-          return this.savingAccountsService.getAccount(params['id']);
-        }
-      )
-    ).subscribe(
+    this.accountSubscription = this.savingAccountsService.$savingAccount.subscribe(
       (account: Account) => {
         this.account = account;
-        this.loadingContent = false;
       }
     );
+
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.savingAccountsService.getAccount(params['id']);
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.accountSubscription.unsubscribe();
   }
 }

@@ -8,11 +8,13 @@ const appRoutes: Routes = [
   { path: '', component: MainPageComponent, resolve: { appInit: AppInitResolver } },
   { path: 'saving-accounts',
     loadChildren: './saving-accounts/saving-accounts.module#SavingAccountsModule',
-    resolve: { appInit: AppInitResolver } },
+    resolve: { appInit: AppInitResolver }
+  },
   { path: 'bank-deposits',
     loadChildren: './bank-deposits/bank-deposits.module#BankDepositsModule',
-    resolve: { appInit: AppInitResolver } }
-]
+    resolve: { appInit: AppInitResolver }
+  }
+];
 
 @NgModule({
   imports: [

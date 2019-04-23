@@ -6,11 +6,13 @@
   mat-dialog-actions
   [align]="'end'">
   <button
+    *ngIf="data.confirmBtnText"
     mat-button
     [mat-dialog-close]="true"
-    color="primary">Tak</button>
+    color="primary">{{ data.confirmBtnText }}</button>
   <button
+    *ngIf="data.cancelBtnText"
     mat-button
     [mat-dialog-close]="false"
-    color="primary">Nie</button>
+    color="primary">{{ data.cancelBtnText }}</button>
 </div>

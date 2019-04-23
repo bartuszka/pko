@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, throwError } from 'rxjs';
 import { Account } from './account.model';
 import { ServerTasksService } from '../shared/services/server-tasks.service';
+import { ErrorHandlingService, Errors } from '../shared/services/error-handling.service';
 
 @Injectable()
 export class SavingAccountsService {
@@ -10,39 +11,73 @@ export class SavingAccountsService {
 
   private savingAccountsSubject: Subject<Account[]> = new Subject();
   public $savingAccounts: Observable<Account[]> = this.savingAccountsSubject.asObservable();
+  private savingAccountSubject: Subject<Account> = new Subject();
+  public $savingAccount: Observable<Account> = this.savingAccountSubject.asObservable();
+  private loadingContent = false;
 
-  constructor(private serverTasksService: ServerTasksService) {}
+  constructor(
+    private serverTasksService: ServerTasksService,
+    private errorHandlingService: ErrorHandlingService
+  ) {}
 
   public fetchAccounts(): void {
+    this.loadingContent = true;
     this.serverTasksService.getAccounts().subscribe(
       (accountsData: {message: string, savingAccounts: Account[]}) => {
         this.savingAccounts = accountsData.savingAccounts;
         this.savingAccountsSubject.next([...this.savingAccounts]);
+        this.loadingContent = false;
+      },
+      error => {
+        this.errorHandlingService.dispatchError(Errors.AccountListError);
+        this.loadingContent = false;
       }
     );
   }
 
   public getAccount(accountId: string) {
-    return this.serverTasksService.getAccount(accountId);
+    this.loadingContent = true;
+    return this.serverTasksService.getAccount(accountId).subscribe(
+      (account: Account) => {
+        this.savingAccountSubject.next(account);
+        this.loadingContent = false;
+      },
+      error => {
+        this.errorHandlingService.dispatchError(Errors.AccountError);
+        this.loadingContent = false;
+      }
+    );
   }
 
   public removeAccount(accountId: string) {
-    return this.serverTasksService.removeAccount(accountId).subscribe(
+    this.loadingContent = true;
+    this.serverTasksService.removeAccount(accountId).subscribe(
       () => {
         const updatedAccounts = this.savingAccounts.filter((account: Account) => account.id !== accountId);
         this.savingAccounts = updatedAccounts;
         this.savingAccountsSubject.next([...this.savingAccounts]);
+        this.loadingContent = false;
+      },
+      error => {
+        this.errorHandlingService.dispatchError(Errors.AcountDeleteError);
+        this.loadingContent = false;
       }
     );
   }
 
   public addRandomAccount() {
+    this.loadingContent = true;
     const newAccount = this.generateRandomAccount();
     this.serverTasksService.addRandomAccount(newAccount).subscribe(
       (responseData: {message: string, accountId: string}) => {
         newAccount.id = responseData.accountId;
         this.savingAccounts.push(newAccount);
         this.savingAccountsSubject.next([...this.savingAccounts]);
+        this.loadingContent = false;
+      },
+      error => {
+        this.errorHandlingService.dispatchError(Errors.AccountSaveError);
+        this.loadingContent = false;
       }
     );
   }
@@ -68,5 +103,9 @@ export class SavingAccountsService {
     };
 
     return newAccount;
+  }
+
+  public getLoadingContent() {
+    return this.loadingContent;
   }
 }

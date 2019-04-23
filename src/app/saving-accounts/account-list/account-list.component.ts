@@ -13,7 +13,6 @@ import { PromptComponent } from 'src/app/shared/components/prompt.component';
 export class AccountListComponent implements OnInit, OnDestroy {
   public savingAccounts: Account[] = [];
   private accountsSubscription: Subscription;
-  public loadingContent: boolean;
 
   constructor(private savingAccountsService: SavingAccountsService, public dialog: MatDialog) { }
 
@@ -24,13 +23,17 @@ export class AccountListComponent implements OnInit, OnDestroy {
   openDialog(accountId: string): void {
     const dialogRef = this.dialog.open(PromptComponent, {
       autoFocus: false,
-      data: { title: 'Usuwanie rachunku', message: 'Czy na pewno chcesz usunąć ten rachunek?' }
+      data: {
+        title: 'Usuwanie rachunku',
+        message: 'Czy na pewno chcesz usunąć ten rachunek?',
+        confirmBtnText: 'Tak',
+        cancelBtnText: 'Nie'
+      }
     });
 
     dialogRef.afterClosed().subscribe(
       (deleteAccount: boolean) => {
         if (deleteAccount) {
-          this.loadingContent = true;
           this.savingAccountsService.removeAccount(accountId);
         }
       }
@@ -38,16 +41,17 @@ export class AccountListComponent implements OnInit, OnDestroy {
   }
 
   addAccount(): void {
-    this.loadingContent = true;
     this.savingAccountsService.addRandomAccount();
   }
 
+  getLoadingContent() {
+    return this.savingAccountsService.getLoadingContent();
+  }
+
   ngOnInit(): void {
-    this.loadingContent = true;
     this.accountsSubscription = this.savingAccountsService.$savingAccounts.subscribe(
       (accounts: Account[]) => {
         this.savingAccounts = accounts;
-        this.loadingContent = false;
       }
     );
     this.savingAccountsService.fetchAccounts();

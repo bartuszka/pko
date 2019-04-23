@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BankDepositsComponent } from './bank-deposits.component';
 import { DepositDetailComponent } from './deposit-detail/deposit-detail.component';
 import { DepositListComponent } from './deposit-list/deposit-list.component';
+import { AppInitResolver } from '../shared/services/app-init-resolver.service';
 
 const bankDepositsRoutes: Routes = [
   { path: '', component: BankDepositsComponent, children: [

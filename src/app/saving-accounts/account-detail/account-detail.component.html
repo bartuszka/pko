@@ -1,5 +1,5 @@
-<mat-progress-bar *ngIf="loadingContent" mode="indeterminate"></mat-progress-bar>
-<div *ngIf="!loadingContent">
+<mat-progress-bar *ngIf="getLoadingContent()" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!getLoadingContent()">
   <div><b>Numer rachunku:</b> {{ account?.accountNumber }}</div>
   <div><b>Kwota na rachunku:</b> {{ account?.accountSum }} zł</div>
   <div><b>Oprocentowanie rachunku:</b> {{ account?.accountInterest }}%</div>
